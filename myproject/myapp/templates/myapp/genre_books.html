@@ -1,0 +1,18 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <div class="main-header">
+        <h2>Buku dalam Genre: <span class="genre-highlight">{{ genre.name }}</span></h2>
+        <a href="{% url 'home' %}" class="cancel-btn">Kembali ke Semua Koleksi</a>
+    </div>
+
+    <div class="book-grid">
+        {% for book in books %}
+            {% include 'myapp/partials/book_card.html' %}
+        {% empty %}
+            <div class="empty-message-container">
+                <p>Anda belum memiliki buku dengan genre "<strong>{{ genre.name }}</strong>".</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<form method="POST" class="book-form">
+    <h2>Login</h2>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-actions">
+        <button type="submit" class="submit-btn">Login</button>
+    </div>
+    <p class="auth-switch">
+        Lupa password Anda? <a href="{% url 'password_reset' %}">Reset di sini</a>
+    </p>
+</form>
+{% endblock %}

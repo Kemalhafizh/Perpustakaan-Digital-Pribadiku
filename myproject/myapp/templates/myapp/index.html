@@ -1,0 +1,95 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+
+<div class="main-header">
+    <h2>Koleksi Light Novel</h2>
+    <div class="header-actions">
+        <form action="{% url 'home' %}" method="get" class="search-form">
+            <input 
+                type="text" 
+                name="q" 
+                class="search-input" 
+                placeholder="Cari judul atau penulis..." 
+                value="{{ search_query|default_if_none:'' }}"
+            >
+            <button type="submit" class="search-btn" title="Cari"></button>
+        </form>
+        <a href="{% url 'add_book' %}" class="add-book-btn">Tambah Judul Baru</a>
+    </div>
+</div>
+
+<div class="genre-filter-container">
+    <h3>Filter berdasarkan Genre:</h3>
+    <div class="genre-list">
+        {% for genre in all_genres %}
+            <a href="{% url 'genre_books' genre.name %}" class="genre-tag">{{ genre.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="sort-options-container">
+    <span>Urutkan berdasarkan:</span>
+    <div class="sort-links">
+        <a href="?sort=newest&q={{ search_query }}" class="sort-link {% if current_sort == 'newest' %}active{% endif %}">Terbaru</a>
+        <a href="?sort=title_asc&q={{ search_query }}" class="sort-link {% if current_sort == 'title_asc' %}active{% endif %}">Judul (A-Z)</a>
+        <a href="?sort=title_desc&q={{ search_query }}" class="sort-link {% if current_sort == 'title_desc' %}active{% endif %}">Judul (Z-A)</a>
+        <a href="?sort=rating_desc&q={{ search_query }}" class="sort-link {% if current_sort == 'rating_desc' %}active{% endif %}">Rating Tertinggi</a>
+    </div>
+</div>
+
+<div class="book-grid">
+    {% for book in page_obj %}
+        {% include 'myapp/partials/book_card.html' %}
+    {% empty %}
+        <div class="empty-message-container">
+            {% if search_query %}
+                <p>
+                    Tidak ada hasil yang ditemukan untuk 
+                    "<strong>{{ search_query }}</strong>".
+                </p>
+            {% else %}
+                <p>
+                    Belum ada Light Novel di koleksimu.
+                    Tambahkan satu untuk memulai!
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="pagination-container">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&sort={{ current_sort }}">&laquo; Sebelumnya</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo; Sebelumnya</span>
+            </li>
+        {% endif %}
+
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{ search_query }}&sort={{ current_sort }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&sort={{ current_sort }}">Berikutnya &raquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Berikutnya &raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock content %}

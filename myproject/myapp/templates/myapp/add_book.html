@@ -1,0 +1,25 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <form method="POST" enctype="multipart/form-data" class="book-form">
+        
+        {% if is_editing %}
+            <h2>Edit Buku dalam Koleksi</h2>
+        {% else %}
+            <h2>Tambah Buku Baru ke Koleksi</h2>
+        {% endif %}
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            {% if is_editing %}
+                <a href="{% url 'book_detail' form.instance.pk %}" class="cancel-btn">Batal</a>
+            {% else %}
+                <a href="{% url 'home' %}" class="cancel-btn">Batal</a>
+            {% endif %}
+            <button type="submit" class="submit-btn">Simpan Buku</button>
+        </div>
+    </form>
+{% endblock content %}

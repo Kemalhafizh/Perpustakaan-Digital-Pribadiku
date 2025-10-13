@@ -1,0 +1,73 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Media uploads (user-uploaded)
+media/
+!media/profile_pics/
+!media/profile_pics/default.jpg
+
+# Static files (collected or auto-generated)
+staticfiles/
+
+# VS Code settings
+.vscode/
+
+# Logs
+*.log
+
+# Django-specific
+local_settings.py
+
+# Build & dist
+build/
+dist/
+*.egg-info/
+
+# Byte-compiled / optimized / DLL files
+*.so
+.Python
+.eggs/
+*.egg
+*.manifest
+*.spec
+
+# Test / coverage
+htmlcov/
+.tox/
+.coverage
+.pytest_cache/
+.nox/
+.hypothesis/
+
+# MyPy / Type checkers
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Docs
+docs/_build/
+site/
+
+# IDEs
+.spyderproject
+.spyproject
+.ropeproject
+.idea/
+.cursorignore
+.cursorindexingignore

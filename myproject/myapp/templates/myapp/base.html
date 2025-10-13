@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan Digital Pribadi</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'home' %}" class="header-link">LN Collection</a></h1>
+        
+       <div class="header-nav">
+    {% if user.is_authenticated %}
+        <a href="{% url 'account_settings' %}" class="profile-link">
+            <img src="{{ user.profile.image.url }}" alt="Avatar" class="profile-avatar">
+            <span class="welcome-user">{{ user.username }}</span>
+        </a>
+        <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="nav-link">Login</a>
+        <a href="{% url 'register' %}" class="add-book-btn">Register</a>
+        {% endif %}
+    </div>
+    </header>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Perpustakaan Digital Pribadiku</p>
+    </footer>
+
+    <script src="{% static 'myapp/js/script.js' %}"></script>
+</body>
+</html>

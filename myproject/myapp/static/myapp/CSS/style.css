@@ -1,0 +1,588 @@
+/* 1. Impor Font & Variabel Warna */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --bg-color: #0d0d0d;
+    --card-bg: rgba(20, 20, 20, 0.6);
+    --text-color: #f0f0f0;
+    --subtle-text: #b0b0b0;
+    --accent-glow: #a855f7;
+    --delete-glow: #f472b6;
+    --link-blue-glow: #2563eb;
+    --border-color: rgba(255, 255, 255, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.7);
+}
+
+/* 2. Styling Dasar & Latar Animasi */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 20% 20%, var(--accent-glow), transparent 35%),
+                radial-gradient(circle at 80% 70%, var(--link-blue-glow), transparent 35%);
+    opacity: 0.15;
+    animation: animated-gradient 20s linear infinite;
+    z-index: -1;
+}
+
+/* 3. Layout & Header */
+header, main, footer {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header Utama dengan Layout Flexbox */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-link { text-decoration: none; }
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(90deg, #f0f0f0, var(--accent-glow), var(--link-blue-glow), #f0f0f0);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: animated-text 10s linear infinite;
+}
+
+@keyframes animated-text {
+    to { background-position: 200% center; }
+}
+
+/* Navigasi User di Kanan Atas */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 0;
+}
+
+.welcome-user {
+    color: var(--subtle-text);
+    font-size: 0.9em;
+}
+
+/* Gaya baru untuk link Login & Logout */
+.nav-link {
+    color: var(--subtle-text);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--card-bg);
+    color: var(--accent-glow);
+    border-color: var(--accent-glow);
+}
+
+/* 4. Konten Halaman Utama */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+main h2 {
+    color: var(--text-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.header-actions { display: flex; align-items: center; gap: 20px; }
+.search-form { display: flex; align-items: center; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 5px; }
+.search-input { background: transparent; border: none; outline: none; color: var(--text-color); font-family: 'Inter', sans-serif; font-size: 0.9em; padding: 5px 10px; width: 250px; }
+.search-input::placeholder { color: var(--subtle-text); }
+.search-btn { background-color: var(--accent-glow); border: none; border-radius: 6px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d0d0d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; transition: background-color 0.3s ease; }
+.search-btn:hover { background-color: #c89cff; }
+
+/* 5. Grid & Kartu Buku */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; }
+.book-card-container { opacity: 0; animation: fadeIn 0.5s ease-out forwards; animation-delay: var(--delay, 0s); position: relative; }
+.book-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: relative; box-shadow: 0 4px 20px var(--shadow-color); }
+.book-card-container:hover .book-card { transform: translateY(-10px) scale(1.05); box-shadow: 0 15px 40px var(--shadow-color); border-color: var(--accent-glow); }
+
+.book-card::before { content: ''; position: absolute; top: 0; left: -150%; width: 70%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); transform: skewX(-25deg); transition: left 0.7s ease; }
+.book-card-container:hover .book-card::before { left: 150%; }
+
+.book-card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; background: radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgba(187, 134, 252, 0.2), transparent 80%); opacity: 0; transition: opacity 0.4s ease-out; }
+.book-card-container:hover .book-card::after { opacity: 1; }
+
+.book-cover { width: 100%; aspect-ratio: 2 / 3; background-color: #2a2a2a; }
+.book-cover img { width: 100%; height: 100%; object-fit: cover; }
+.book-info { padding: 15px; }
+.book-title { font-size: 1em; font-weight: 600; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 0 5px 0; }
+.book-author { font-size: 0.9em; color: var(--subtle-text); margin: 0; }
+
+/* 6. Tombol Aksi */
+.book-actions { position: absolute; top: 10px; right: 10px; opacity: 0; transition: opacity 0.3s ease; }
+.book-card-container:hover .book-actions { opacity: 1; }
+.delete-btn { background-color: rgba(0, 0, 0, 0.7); color: var(--delete-glow); border: 1px solid var(--delete-glow); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'%3E%3C/path%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; }
+.delete-btn:hover { background-color: var(--delete-glow); color: white; }
+
+/* Menggabungkan beberapa selector tombol untuk efisiensi */
+.add-book-btn, .submit-btn, .cancel-btn, .confirm-delete-btn {
+    color: var(--accent-glow);
+    background: transparent;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s ease;
+    z-index: 1;
+}
+
+.add-book-btn, .submit-btn { border: 1px solid var(--accent-glow); }
+.cancel-btn { border: 1px solid var(--subtle-text); color: var(--subtle-text); }
+.confirm-delete-btn { border: 1px solid var(--delete-glow); color: var(--delete-glow); }
+
+.add-book-btn::before, .submit-btn::before, .cancel-btn::before, .confirm-delete-btn::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.5, 1.6, 0.4, 0.7);
+    z-index: -1;
+}
+
+/* Warna latar animasi saat hover */
+.add-book-btn::before, .submit-btn::before { background: var(--accent-glow); }
+.cancel-btn::before { background: var(--subtle-text); }
+.confirm-delete-btn::before { background: var(--delete-glow); }
+
+.add-book-btn:hover, .submit-btn:hover, .cancel-btn:hover, .confirm-delete-btn:hover { color: var(--bg-color); }
+
+.add-book-btn:hover::before, .submit-btn:hover::before, .cancel-btn:hover::before, .confirm-delete-btn:hover::before { transform: scaleX(1); }
+
+/* 7. Form & Halaman Detail */
+.book-form, .delete-confirm-container { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; }
+.book-form p { display: flex; flex-direction: column; margin-bottom: 20px; }
+.book-form label { margin-bottom: 8px; color: var(--subtle-text); }
+.book-form input, .book-form textarea { background-color: #2a2a2a; border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; color: var(--text-color); font-size: 1em; font-family: 'Inter', sans-serif; }
+.book-form input:focus { outline: none; border-color: var(--accent-glow); box-shadow: 0 0 10px rgba(168, 85, 247, 0.3); }
+
+.book-form input[type="file"] { background-color: transparent; border: none; padding: 0; color: var(--subtle-text); }
+.book-form input[type="file"]::file-selector-button { border: 1px solid var(--accent-glow); color: var(--accent-glow); background: transparent; padding: 10px 20px; border-radius: 4px; font-family: 'Inter', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-right: 15px; }
+.book-form input[type="file"]::file-selector-button:hover { background-color: var(--accent-glow); color: var(--bg-color); }
+
+.delete-confirm-container { text-align: center; }
+.form-actions { margin-top: 30px; display: flex; justify-content: center; gap: 20px; }
+
+.detail-container { display: flex; gap: 40px; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.detail-cover { flex-shrink: 0; width: 250px; }
+.detail-cover img { width: 100%; border-radius: 8px; box-shadow: 0 10px 30px var(--shadow-color); }
+.placeholder-cover-detail { width: 100%; aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-weight: 600; background-color: #2a2a2a; border-radius: 8px; }
+.detail-info { display: flex; flex-direction: column; }
+.detail-title { font-size: 2.5em; font-weight: 700; color: var(--text-color); margin-bottom: 5px; }
+.detail-author { font-size: 1.2em; color: var(--subtle-text); margin-top: 0; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+.star-rating { margin-bottom: 20px; font-size: 1.8em; }
+.star.filled { color: #f5c518; text-shadow: 0 0 5px #f5c518; }
+.star.empty { color: var(--border-color); }
+.synopsis-block { margin-top: 20px; color: var(--subtle-text); }
+.synopsis-block h3 { color: var(--text-color); font-weight: 600; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-bottom: 10px; }
+.detail-meta { color: var(--subtle-text); }
+.detail-meta span { color: var(--text-color); font-weight: 600; }
+.detail-actions { margin-top: auto; padding-top: 20px; }
+
+/* 8. Lain-lain */
+.empty-message-container { text-align: center; color: var(--subtle-text); grid-column: 1 / -1; }
+footer { text-align: center; margin-top: 50px; font-size: 0.9em; color: var(--subtle-text); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes animated-gradient { 0% { transform: translate(0, 0); } 50% { transform: translate(-50%, -50%); } 100% { transform: translate(0, 0); } }
+
+/* 9. Styling Avatar Profil */
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+/* 10. Styling Halaman Akun & Pesan Notifikasi */
+.account-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+}
+.profile-pic-container { text-align: center; margin-bottom: 20px; }
+.profile-pic { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--border-color); }
+.form-fieldset { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+.fieldset-legend { padding: 0 10px; font-weight: 600; color: var(--accent-glow); }
+
+/* Link profil di header */
+.profile-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+/* Pesan notifikasi */
+.messages-container { max-width: 1200px; margin: -10px auto 20px auto; }
+.message { padding: 15px; border-radius: 8px; color: var(--bg-color); font-weight: 600; }
+.message.success { background-color: #2ecc71; }
+.message.error { background-color: #e74c3c; }
+
+/* 11. Styling Genre */
+.genre-highlight {
+    color: var(--accent-glow);
+}
+
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.genre-tag {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--subtle-text);
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.genre-tag:hover {
+    background-color: var(--accent-glow);
+    color: var(--bg-color);
+    border-color: var(--accent-glow);
+    transform: translateY(-2px);
+}
+
+.genre-filter-container {
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+.genre-filter-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+.genre-filter-container .genre-list {
+    margin-bottom: 0;
+}
+
+/* Styling untuk Checkbox Genre di Form */
+#div_id_genres {
+    background-color: #2a2a2a;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 15px;
+}
+
+#div_id_genres .form-check {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+/* 12. Responsiveness (Mobile & Tablet Friendly) */
+/* Tablet (≤1024px) */
+@media (max-width: 1024px) {
+  header h1 {
+    font-size: 2em;
+  }
+
+  .search-input {
+    width: 180px;
+  }
+
+  .detail-container {
+    gap: 25px;
+  }
+
+  .detail-title {
+    font-size: 2em;
+  }
+}
+
+/* HP ukuran sedang (≤768px) */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .header-nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .main-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+  }
+
+  .detail-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail-cover {
+    width: 70%;
+    max-width: 250px;
+  }
+
+  .detail-title {
+    text-align: center;
+    font-size: 1.8em;
+  }
+
+  .detail-author {
+    text-align: center;
+  }
+
+  footer {
+    font-size: 0.8em;
+  }
+}
+
+/* HP kecil (≤480px) */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 1.6em;
+    text-align: center;
+  }
+
+  .header-nav {
+    justify-content: center;
+  }
+
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .book-card {
+    border-radius: 10px;
+  }
+
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+  }
+
+  .account-container {
+    padding: 20px;
+  }
+
+  .book-form, .delete-confirm-container {
+    padding: 20px;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
+
+/* 13. Styling Profesional untuk Checkbox Genre di Form */
+#id_genres {
+    list-style-type: none;
+    padding: 15px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    
+    background-color: #2a2a2a;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+#id_genres li {
+    display: block;
+}
+
+#id_genres li label {
+    cursor: pointer;
+    display: block;
+    padding: 5px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    color: var(--subtle-text);
+}
+
+#id_genres li label:hover {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+#id_genres li label input {
+    margin-right: 8px;
+}
+
+/* 14. Styling Halaman Sukses */
+.success-container {
+    text-align: center;
+}
+
+/* 15. Styling Pagination */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    gap: 5px;
+}
+
+.page-item .page-link {
+    display: block;
+    padding: 10px 15px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--subtle-text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.page-item:not(.disabled) .page-link:hover {
+    background-color: var(--accent-glow);
+    border-color: var(--accent-glow);
+    color: var(--bg-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--accent-glow);
+    border-color: var(--accent-glow);
+    color: var(--bg-color);
+    cursor: default;
+}
+
+.page-item.disabled .page-link {
+    color: #555;
+    background-color: #222;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 16. Styling Link Otentikasi (Lupa Password, dll) */
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--subtle-text);
+}
+
+.auth-switch a {
+    color: var(--accent-glow);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* 17. Styling Opsi Sorting */
+.sort-options-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+}
+
+.sort-options-container span {
+    color: var(--subtle-text);
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.sort-links {
+    display: flex;
+    gap: 10px;
+}
+
+.sort-link {
+    text-decoration: none;
+    color: var(--subtle-text);
+    background-color: #333;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.sort-link:hover {
+    background-color: #444;
+    color: var(--text-color);
+}
+
+.sort-link.active {
+    background-color: var(--accent-glow);
+    color: var(--bg-color);
+    border-color: var(--accent-glow);
+    cursor: default;
+}

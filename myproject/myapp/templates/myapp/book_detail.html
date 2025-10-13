@@ -1,0 +1,58 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="detail-container">
+
+    <div class="detail-cover">
+        {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="Sampul {{ book.title }}">
+        {% else %}
+            <div class="placeholder-cover-detail">
+                <span>{{ book.title }}</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="detail-info">
+        <h2 class="detail-title">{{ book.title }}</h2>
+        <p class="detail-author">oleh {{ book.author }}</p>
+
+        {% if book.rating %}
+            <div class="star-rating">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= book.rating %}
+                        <span class="star filled">★</span>
+                    {% else %}
+                        <span class="star empty">☆</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="genre-list">
+            {% for genre in book.genres.all %}
+                <a href="{% url 'genre_books' genre.name %}" class="genre-tag">{{ genre.name }}</a>
+            {% endfor %}
+        </div>
+
+        {% if book.published_date %}
+            <p class="detail-meta">
+                Tanggal Terbit: <span>{{ book.published_date|date:"d F Y" }}</span>
+            </p>
+        {% endif %}
+
+        {% if book.synopsis %}
+            <div class="synopsis-block">
+                <h3>Sinopsis</h3>
+                <p>{{ book.synopsis|linebreaks }}</p>
+            </div>
+        {% endif %}
+        
+        <div class="detail-actions">
+            <a href="{% url 'edit_book' book.pk %}" class="add-book-btn">Edit</a>
+            <a href="{% url 'home' %}" class="cancel-btn">Kembali ke Koleksi</a>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

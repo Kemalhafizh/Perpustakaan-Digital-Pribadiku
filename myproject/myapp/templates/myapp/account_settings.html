@@ -1,0 +1,26 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="account-container book-form">
+    <div class="profile-pic-container">
+        <img class="profile-pic" src="{{ user.profile.image.url }}">
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-fieldset">
+            <legend class="fieldset-legend">Info Akun</legend>
+            {{ u_form.as_p }}
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <legend class="fieldset-legend">Foto Profil</legend>
+            {{ p_form.as_p }}
+        </fieldset>
+
+        <div class="form-actions">
+            <a href="{% url 'home' %}" class="cancel-btn">Kembali</a>
+            <a href="{% url 'password_change' %}" class="add-book-btn">Ganti Password</a>
+            <button type="submit" class="submit-btn">Perbarui Akun</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
