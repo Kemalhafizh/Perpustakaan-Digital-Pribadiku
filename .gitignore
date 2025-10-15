@@ -16,9 +16,6 @@ db.sqlite3
 db.sqlite3-journal
 
 # Media uploads (user-uploaded)
-media/
-!media/profile_pics/
-!media/profile_pics/default.jpg
 
 # Static files (collected or auto-generated)
 staticfiles/
