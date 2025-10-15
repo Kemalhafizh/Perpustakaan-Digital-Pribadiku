@@ -18,9 +18,10 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Diisi dengan domain Anda saat deploy
+ALLOWED_HOSTS = ['Kemalhafizh.pythonanywhere.com']
 
 
 # Application definition
@@ -86,7 +87,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
+# https://docs.djangoproject.com/en/5.2/topics/i1n/
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Jakarta'
@@ -98,7 +99,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Path untuk collectstatic di server produksi
+STATIC_ROOT = os.path.join(BASE_DIR.parent, 'staticfiles')
+
 
 # Default primary key field type
 # ...
