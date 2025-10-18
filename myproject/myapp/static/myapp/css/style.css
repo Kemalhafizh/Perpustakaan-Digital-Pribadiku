@@ -586,3 +586,108 @@ footer { text-align: center; margin-top: 50px; font-size: 0.9em; color: var(--su
     border-color: var(--accent-glow);
     cursor: default;
 }
+
+/* 18. Styling Halaman Reset Password & Pesan Konfirmasi */
+
+/* Container utama untuk form login, register, dan reset password */
+.form-container, .message-box {
+    max-width: 500px;
+    margin: 60px auto;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px var(--shadow-color);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.form-container h2, .message-box h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.form-container p, .message-box p {
+    color: var(--subtle-text);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Styling untuk field form di halaman reset */
+.form-container form p {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container form label {
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.form-container form input {
+    width: 100%;
+    padding: 12px;
+    background-color: #2a2a2a;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.form-container form input:focus {
+    outline: none;
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+}
+
+/* Styling untuk pesan error dari Django */
+.form-container .errorlist {
+    list-style-type: none;
+    padding: 10px;
+    margin: -15px 0 15px 0;
+    background-color: rgba(244, 114, 182, 0.1);
+    border: 1px solid var(--delete-glow);
+    border-radius: 6px;
+    color: var(--delete-glow);
+    font-size: 0.9em;
+    text-align: left;
+}
+
+/* Styling untuk link di bawah form */
+.form-links {
+    margin-top: 25px;
+    font-size: 0.9em;
+}
+
+.form-links a {
+    color: var(--subtle-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.form-links a:hover {
+    color: var(--accent-glow);
+    text-decoration: underline;
+}
+
+/* Mengatur agar tombol submit di form reset memenuhi lebar container */
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1em;
+}
+
+/* Penyesuaian untuk pesan error di halaman konfirmasi */
+.message-box .error-message {
+    color: var(--delete-glow);
+    font-weight: 600;
+}
