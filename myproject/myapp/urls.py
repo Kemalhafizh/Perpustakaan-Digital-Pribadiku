@@ -53,7 +53,4 @@ urlpatterns = [
              template_name='myapp/password_reset_complete.html'
          ), 
          name='password_reset_complete'),
-         
-    # URL Filter Genre
-    path('genre/<str:genre_name>/', views.genre_books_view, name='genre_books'),
 ]
