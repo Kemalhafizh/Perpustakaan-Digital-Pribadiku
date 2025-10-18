@@ -9,14 +9,22 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.core.paginator import Paginator
 
-# 1. VIEW UNTUK HALAMAN UTAMA (VERSI BARU DENGAN SORTING & PAGINATION)
+# 1. VIEW HALAMAN UTAMA
 @login_required
 def home_view(request):
+    # Mengambil semua parameter dari URL
+    genre_filter = request.GET.get('genre')
     search_query = request.GET.get('q', '')
     sort_option = request.GET.get('sort', 'newest')
 
+    # Mulai dengan buku milik pengguna yang login
     user_books = Book.objects.filter(user=request.user)
 
+    # Terapkan filter genre
+    if genre_filter:
+        user_books = user_books.filter(genres__name=genre_filter)
+
+    # Terapkan filter pencarian
     if search_query:
         user_books = user_books.filter(
             Q(title__icontains=search_query) | Q(author__icontains=search_query)
@@ -44,6 +52,7 @@ def home_view(request):
         'search_query': search_query,
         'all_genres': all_genres,
         'current_sort': sort_option,
+        'current_genre': genre_filter,
     }
     return render(request, 'myapp/index.html', context)
 
@@ -160,8 +169,8 @@ def account_settings_view(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.profile)
+                                     request.FILES,
+                                     instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
@@ -176,19 +185,3 @@ def account_settings_view(request):
         'p_form': p_form
     }
     return render(request, 'myapp/account_settings.html', context)
-
-# 10. VIEW UNTUK MENAMPILKAN BUKU BERDASARKAN GENRE
-@login_required
-def genre_books_view(request, genre_name):
-    genre = get_object_or_404(Genre, name=genre_name)
-    all_books = Book.objects.filter(user=request.user, genres=genre).order_by('-id')
-    
-    paginator = Paginator(all_books, 8)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        'genre': genre,
-        'page_obj': page_obj
-    }
-    return render(request, 'myapp/genre_books.html', context)

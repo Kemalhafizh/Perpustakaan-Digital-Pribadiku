@@ -23,18 +23,24 @@
     <h3>Filter berdasarkan Genre:</h3>
     <div class="genre-list">
         {% for genre in all_genres %}
-            <a href="{% url 'genre_books' genre.name %}" class="genre-tag">{{ genre.name }}</a>
+            <a href="{% url 'home' %}?genre={{ genre.name }}" 
+               class="genre-tag {% if current_genre == genre.name %}active{% endif %}">
+               {{ genre.name }}
+            </a>
         {% endfor %}
+        {% if current_genre %}
+            <a href="{% url 'home' %}" class="genre-tag clear-filter">Tampilkan Semua</a>
+        {% endif %}
     </div>
 </div>
 
 <div class="sort-options-container">
     <span>Urutkan berdasarkan:</span>
     <div class="sort-links">
-        <a href="?sort=newest&q={{ search_query }}" class="sort-link {% if current_sort == 'newest' %}active{% endif %}">Terbaru</a>
-        <a href="?sort=title_asc&q={{ search_query }}" class="sort-link {% if current_sort == 'title_asc' %}active{% endif %}">Judul (A-Z)</a>
-        <a href="?sort=title_desc&q={{ search_query }}" class="sort-link {% if current_sort == 'title_desc' %}active{% endif %}">Judul (Z-A)</a>
-        <a href="?sort=rating_desc&q={{ search_query }}" class="sort-link {% if current_sort == 'rating_desc' %}active{% endif %}">Rating Tertinggi</a>
+        <a href="?sort=newest&q={{ search_query }}&genre={{ current_genre|default_if_none:'' }}" class="sort-link {% if current_sort == 'newest' %}active{% endif %}">Terbaru</a>
+        <a href="?sort=title_asc&q={{ search_query }}&genre={{ current_genre|default_if_none:'' }}" class="sort-link {% if current_sort == 'title_asc' %}active{% endif %}">Judul (A-Z)</a>
+        <a href="?sort=title_desc&q={{ search_query }}&genre={{ current_genre|default_if_none:'' }}" class="sort-link {% if current_sort == 'title_desc' %}active{% endif %}">Judul (Z-A)</a>
+        <a href="?sort=rating_desc&q={{ search_query }}&genre={{ current_genre|default_if_none:'' }}" class="sort-link {% if current_sort == 'rating_desc' %}active{% endif %}">Rating Tertinggi</a>
     </div>
 </div>
 
@@ -47,6 +53,10 @@
                 <p>
                     Tidak ada hasil yang ditemukan untuk 
                     "<strong>{{ search_query }}</strong>".
+                </p>
+            {% elif current_genre %}
+                 <p>
+                    Tidak ada buku dengan genre "<strong>{{ current_genre }}</strong>".
                 </p>
             {% else %}
                 <p>
@@ -63,7 +73,7 @@
     <ul class="pagination">
         {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&sort={{ current_sort }}">&laquo; Sebelumnya</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&sort={{ current_sort }}&genre={{ current_genre|default_if_none:'' }}">&laquo; Sebelumnya</a>
             </li>
         {% else %}
             <li class="page-item disabled">
@@ -75,13 +85,13 @@
             {% if page_obj.number == i %}
                 <li class="page-item active"><span class="page-link">{{ i }}</span></li>
             {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{ search_query }}&sort={{ current_sort }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{ search_query }}&sort={{ current_sort }}&genre={{ current_genre|default_if_none:'' }}">{{ i }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&sort={{ current_sort }}">Berikutnya &raquo;</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&sort={{ current_sort }}&genre={{ current_genre|default_if_none:'' }}">Berikutnya &raquo;</a>
             </li>
         {% else %}
             <li class="page-item disabled">
