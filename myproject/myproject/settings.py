@@ -18,10 +18,10 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 # Diisi dengan domain Anda saat deploy
-ALLOWED_HOSTS = ['Kemalhafizh.pythonanywhere.com']
+ALLOWED_HOSTS = ['Kemalhafizh.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition

@@ -31,7 +31,7 @@
 
         <div class="genre-list">
             {% for genre in book.genres.all %}
-                <a href="{% url 'genre_books' genre.name %}" class="genre-tag">{{ genre.name }}</a>
+            <a href="{% url 'home' %}?genre={{ genre.name }}" class="genre-tag">{{ genre.name }}</a>
             {% endfor %}
         </div>
 
