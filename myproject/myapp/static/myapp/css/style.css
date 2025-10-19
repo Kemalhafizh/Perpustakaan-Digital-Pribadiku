@@ -314,126 +314,124 @@ footer { text-align: center; margin-top: 50px; font-size: 0.9em; color: var(--su
 }
 
 /* 12. Responsiveness (Mobile & Tablet Friendly) */
+
 /* Tablet (≤1024px) */
 @media (max-width: 1024px) {
-  header h1 {
-    font-size: 2em;
-  }
-
-  .search-input {
-    width: 180px;
-  }
-
-  .detail-container {
-    gap: 25px;
-  }
-
-  .detail-title {
-    font-size: 2em;
-  }
+    header h1 {
+        font-size: 2em;
+    }
+    .search-input {
+        width: 200px;
+    }
+    .detail-container {
+        gap: 25px;
+    }
+    .detail-title {
+        font-size: 2.2em;
+    }
+    .book-grid {
+        /* Sedikit lebih renggang di tablet */
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
 }
+
 
 /* HP ukuran sedang (≤768px) */
 @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .header-nav {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .main-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 15px;
-  }
-
-  .search-input {
-    width: 100%;
-  }
-
-  .book-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
-  }
-
-  .detail-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .detail-cover {
-    width: 70%;
-    max-width: 250px;
-  }
-
-  .detail-title {
-    text-align: center;
-    font-size: 1.8em;
-  }
-
-  .detail-author {
-    text-align: center;
-  }
-
-  footer {
-    font-size: 0.8em;
-  }
+    body {
+        padding: 15px;
+    }
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .header-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+    .main-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+    .search-input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .book-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 20px;
+    }
+    .detail-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .detail-cover {
+        width: 70%;
+        max-width: 250px;
+    }
+    .detail-title {
+        text-align: center;
+        font-size: 1.8em;
+    }
+    .detail-author {
+        text-align: center;
+    }
+    .sort-options-container, .genre-filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .sort-links, .genre-list {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .sort-link, .genre-tag {
+        font-size: 0.8em;
+        padding: 4px 10px;
+    }
+    footer {
+        font-size: 0.8em;
+    }
 }
+
 
 /* HP kecil (≤480px) */
 @media (max-width: 480px) {
-  body {
-    padding: 10px;
-  }
-
-  header h1 {
-    font-size: 1.6em;
-    text-align: center;
-  }
-
-  .header-nav {
-    justify-content: center;
-  }
-
-  .book-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .book-card {
-    border-radius: 10px;
-  }
-
-  .profile-avatar {
-    width: 32px;
-    height: 32px;
-  }
-
-  .profile-pic {
-    width: 120px;
-    height: 120px;
-  }
-
-  .account-container {
-    padding: 20px;
-  }
-
-  .book-form, .delete-confirm-container {
-    padding: 20px;
-  }
-
-  .search-form {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .search-input {
-    width: 100%;
-  }
+    body {
+        padding: 10px;
+    }
+    header h1 {
+        font-size: 1.8em;
+        text-align: center;
+    }
+    .book-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    .book-card {
+        border-radius: 10px;
+    }
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+    }
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+    }
+    .account-container, .book-form, .delete-confirm-container, .form-container {
+        padding: 20px;
+    }
+    .form-container h2, .message-box h2 {
+        font-size: 1.5em;
+    }
+    .main-header h2 {
+        font-size: 1.5em;
+    }
 }
 
 /* 13. Styling Profesional untuk Checkbox Genre di Form */
